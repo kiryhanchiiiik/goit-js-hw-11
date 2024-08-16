@@ -17,6 +17,7 @@ searchForm.addEventListener('submit', event => {
   event.preventDefault();
   preloader.style.display = 'flex';
   const searchedValue = searchForm.elements.searchQuery.value.trim();
+
   if (!searchedValue) {
     iziToast.error({
       message: 'Please, fill the input',
@@ -26,15 +27,26 @@ searchForm.addEventListener('submit', event => {
     return;
   }
 
-  fetchImages(searchedValue).then(images => {
-    renderGallery(images, galleryContainer);
-    if (images.length === 0) {
+  fetchImages(searchedValue)
+    .then(images => {
+      renderGallery(images, galleryContainer);
+
+      if (images.length === 0) {
+        iziToast.error({
+          message:
+            'Sorry, there are no images matching your search query. Please try again!',
+          position: 'topRight',
+        });
+      }
+    })
+    .catch(error => {
       iziToast.error({
         message:
-          'Sorry, there are no images matching your search query. Please try again!',
+          'An error occurred while fetching images. Please try again later.',
         position: 'topRight',
       });
-    }
-    preloader.style.display = 'none';
-  });
+    })
+    .finally(() => {
+      preloader.style.display = 'none';
+    });
 });

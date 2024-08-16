@@ -19,10 +19,10 @@ export function renderGallery(images, container) {
     .join('');
 
   container.innerHTML = markup;
-  const simplelightbox = new SimpleLightbox('.gallery a', {
-    captions: true,
-    captionsData: 'alt',
-    captionsDelay: 200,
-  });
   simplelightbox.refresh();
 }
+const simplelightbox = new SimpleLightbox('.gallery a', {
+  captions: true,
+  captionsData: 'alt',
+  captionsDelay: 200,
+});
